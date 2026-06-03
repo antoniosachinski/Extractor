@@ -12,7 +12,7 @@ export async function metadados(database, data) {
            ROW_NUMBER() OVER (PARTITION BY conversation_id ORDER BY startedAt) rn
     FROM conversation_softbox
     WHERE company_id = ${company}
-      AND startedAt BETWEEN '${data} 00:00:01' AND '${data} 23:59:59'
+      AND startedAt BETWEEN '${data} 00:00:00' AND '${data} 23:59:59'
 ),
 cf AS (
     SELECT *,
