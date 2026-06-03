@@ -1,9 +1,9 @@
-import { connection } from "./connectionDatabase.js";
+import { connectionDatabase } from "./connection.js";
 import { exportToCsv } from "../utils/csv.js";
 import { company } from "../config/config.js";
 
 export async function metadados(database, data) {
-    const conn = await connection(database);
+    const conn = await connectionDatabase(database);
 
     try {
         const [rows] = await conn.query(`

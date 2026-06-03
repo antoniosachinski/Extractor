@@ -1,8 +1,8 @@
-import { connection } from "./connectionDatabase.js";
+import { connectionDatabase } from "./connection.js";
 import { exportToCsv } from "../utils/csv.js";
 
 export async function dados(database, data) {
-    const conn = await connection(database);
+    const conn = await connectionDatabase(database);
 
     try {
         const [rows] = await conn.query(`
