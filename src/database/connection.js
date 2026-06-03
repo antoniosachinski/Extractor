@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise'
-import { db1config, db2config, db3config, ssh1 } from "../config/config.js"
+import { db1config, db2config, db3config } from "../config/config.js"
 
 export async function findDatabase(database) {
     const configs = {
