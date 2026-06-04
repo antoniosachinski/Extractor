@@ -109,7 +109,7 @@ LEFT JOIN form_field ff_tab
 ORDER BY sb.conversation_id, sb.startedAt;
         `);
 
-        exportToCsv(data, 'METADADOS', rows)
+        exportToCsv(database, data, 'METADADOS', rows)
 
     } catch (error) {
         console.error('Erro na conexão:', error.message);

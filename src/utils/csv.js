@@ -1,26 +1,37 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { db1config, db2config, db3config } from '../config/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const SEPARADOR = ';';
 
+const nameConfig = {
+    banco1: db1config,
+    banco2: db2config,
+    banco3: db3config,
+};
+
 function reorderDate(value) {
+    // Normaliza qualquer Date ou string ISO para dd/mm/yyyy hh:mm:ss
     if (value instanceof Date) {
-        const day = String(value.getDate()).padStart(2, '0');
-        const month = String(value.getMonth() + 1).padStart(2, '0');
-        const year = value.getFullYear();
-        const hours = String(value.getHours()).padStart(2, '0');
-        const minutes = String(value.getMinutes()).padStart(2, '0');
-        const seconds = String(value.getSeconds()).padStart(2, '0');
-        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        if (isNaN(value.getTime())) return '';
+        const pad = (n) => String(n).padStart(2, '0');
+        return `${pad(value.getDate())}/${pad(value.getMonth() + 1)}/${value.getFullYear()} ${pad(value.getHours())}:${pad(value.getMinutes())}:${pad(value.getSeconds())}`;
     }
+
     if (typeof value !== 'string') return value;
-    const match = value.match(/(\d{4})([-\/])(\d{2})\2(\d{2})/);
-    if (!match) return value;
-    const [full, year, sep, month, day] = match;
-    return value.replace(full, `${day}${sep}${month}${sep}${year}`);
+
+    // Tenta parsear strings no formato ISO (yyyy-mm-dd ou yyyy/mm/dd, com ou sem horário)
+    const isoMatch = value.match(/^(\d{4})([-\/])(\d{2})\2(\d{2})([T ](\d{2}:\d{2}(:\d{2})?))?/);
+    if (isoMatch) {
+        const [, year, sep, month, day, , time] = isoMatch;
+        const datePart = `${day}${sep}${month}${sep}${year}`;
+        return time ? `${datePart} ${time}` : datePart;
+    }
+
+    return value;
 }
 
 function escapeCsvField(value) {
@@ -32,7 +43,14 @@ function escapeCsvField(value) {
     return str;
 }
 
-export function exportToCsv(data, dataType, rows) {
+export function exportToCsv(database, periodo, dataType, rows) {
+    // Valida o banco solicitado
+    const base = nameConfig[database];
+    if (!base) {
+        console.error(`Erro: banco desconhecido "${database}". Opções: ${Object.keys(nameConfig).join(', ')}`);
+        return;
+    }
+
     try {
         if (!rows || rows.length === 0) throw new Error('Nenhum dado para exportar');
 
@@ -47,9 +65,13 @@ export function exportToCsv(data, dataType, rows) {
             ),
         ];
 
-        const nameArq = `${data}_${dataType}`;
+        const nameArq = `${periodo}_${dataType}`;
         const BOM = '\uFEFF';
-        const outputPath = path.join(__dirname, '..', 'output', `${nameArq}.csv`);
+        const outputDir = path.join(__dirname, '..', 'output', base.nameFantasy);
+        const outputPath = path.join(outputDir, `${nameArq}.csv`);
+
+        // Cria a pasta automaticamente se não existir
+        fs.mkdirSync(outputDir, { recursive: true });
 
         fs.writeFileSync(outputPath, BOM + linhas.join('\r\n'), 'utf8');
         console.log(`Exportado para ${outputPath} (${rows.length} linhas)`);
@@ -57,8 +79,6 @@ export function exportToCsv(data, dataType, rows) {
     } catch (error) {
         if (error.code === 'EBUSY') {
             console.error(`Erro: o arquivo está aberto em outro programa. Feche e tente novamente.`);
-        } else if (error.code === 'ENOENT') {
-            console.error(`Erro: pasta output não encontrada em ${path.join(__dirname, '..', 'output')}`);
         } else {
             console.error(`Erro ao exportar CSV:`, error.message);
         }
