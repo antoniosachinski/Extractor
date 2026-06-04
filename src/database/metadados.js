@@ -5,6 +5,9 @@ import { company } from "../config/config.js";
 export async function metadados(database, data) {
     const conn = await connectionDatabase(database);
 
+    console.log('Select iniciado!')
+
+
     try {
         const [rows] = await conn.query(`
           WITH sb AS (

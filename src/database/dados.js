@@ -4,6 +4,8 @@ import { exportToCsv } from "../utils/csv.js";
 export async function dados(database, data) {
     const conn = await connectionDatabase(database);
 
+    console.log('Select iniciado!')
+
     try {
         const [rows] = await conn.query(`
           SELECT c.conversation_id, m.createdAt, text, from_name, to_name, cc.link
