@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 export const db1config = {
+    nameFantasy: process.env.DB1_NAME_FANTASY,
     host: process.env.DB1_HOST,
     port: process.env.DB1_PORT,
     name: process.env.DB1_NAME,
@@ -9,6 +10,7 @@ export const db1config = {
 }
 
 export const db2config = {
+    nameFantasy: process.env.DB2_NAME_FANTASY,
     host: process.env.DB2_HOST,
     port: process.env.DB2_PORT,
     name: process.env.DB2_NAME,
@@ -17,6 +19,7 @@ export const db2config = {
 }
 
 export const db3config = {
+    nameFantasy: process.env.DB3_NAME_FANTASY,
     host: process.env.DB_HOST,
     port: process.env.DB3_PORT,
     name: process.env.DB3_NAME,

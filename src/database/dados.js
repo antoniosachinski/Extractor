@@ -4,7 +4,7 @@ import { exportToCsv } from "../utils/csv.js";
 export async function dados(database, data) {
     const conn = await connectionDatabase(database);
 
-    console.log('Select iniciado!')
+    console.log(`Select 'DADOS' iniciado!`)
 
     try {
         const [rows] = await conn.query(`
@@ -17,7 +17,7 @@ WHERE c.transferedAt IS NOT NULL
 ORDER BY c.createdAt asc;
         `);
 
-        exportToCsv(data, 'DADOS', rows)
+        exportToCsv(database, data, 'DADOS', rows)
 
     } catch (error) {
         console.error('Erro na conexão:', error.message);

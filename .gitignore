@@ -137,3 +137,6 @@ dist
 
 # Output gerado pelo Extractor
 src/output/
+
+# Ignorar alterações simples n main
+src/main

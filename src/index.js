@@ -9,4 +9,5 @@ import { executeExport } from './orchestrators/exportProcess.js'
 
 // exportar [ DADOS | METADADOS ] ---------
 
-executeExport('banco3', '2026-05-28')
+await executeExport('banco1', '2026-05-28')
+await executeExport('banco2', '2026-05-28')
