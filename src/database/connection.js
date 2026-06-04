@@ -71,7 +71,7 @@ export const connectionSsh = () => new Promise((resolve, reject) => {
         host: ssh.host,
         port: ssh.port,
         username: ssh.user,
-        privateKey: ssh.pass
+        privateKey: ssh.keyPath
     })
 })
 

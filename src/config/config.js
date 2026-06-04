@@ -33,6 +33,16 @@ export const ssh = {
     host: process.env.SSH_HOST,
     port: process.env.SSH_PORT,
     user: process.env.SSH_USER,
-    pass: process.env.SSH_KEY_PATH
+    keyPath: process.env.SSH_KEY_PATH
 }
 
+export const pastas = [
+    {
+        local: process.env.PASTA1_LOCAL,
+        remoto: process.env.PASTA1_REMOTO
+    },
+    {
+        local: process.env.PASTA2_LOCAL,
+        remoto: process.env.PASTA2_REMOTO
+    },
+]

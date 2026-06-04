@@ -1,5 +1,6 @@
 import { findDatabase } from './database/connection.js'
 import { executeExport } from './orchestrators/exportProcess.js'
+import { putOnServer } from './utils/putOnServer.js'
 
 
 // testar conexão (pingar no banco) ---------
