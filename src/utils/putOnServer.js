@@ -1,4 +1,4 @@
-import { connectionSsh } from "../database/connection.js";
+import { connectionSsh } from "../config/ssh.js";
 import { pastas } from "../config/config.js";
 import fs from "fs/promises";
 
