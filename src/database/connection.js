@@ -69,9 +69,9 @@ export const connectionSsh = () => new Promise((resolve, reject) => {
     conn.on('error', reject)
     conn.connect({
         host: ssh.host,
-        port: ssh.port,
+        port: ssh.port || 22,
         username: ssh.user,
-        privateKey: ssh.keyPath
+        password: ssh.pass
     })
 })
 

@@ -13,18 +13,24 @@ export async function putOnServer() {
         for (const pasta of pastas) {
           const arquivos = await fs.readdir(pasta.local)
 
-          for (const arquivo of arquivos) {
-            const localPath  = `${pasta.local}/${arquivo}`
-            const remotePath = `${pasta.remoto}/${arquivo}`
+          // acha o arquivo que contém DADOS ou METADADOS no nome
+          const arquivo = arquivos.find(f => f.includes(pasta.arquivo))
 
-            await new Promise((res, rej) => {
-              sftp.fastPut(localPath, remotePath, (err) => {
-                if (err) return rej(err)
-                console.log(`Enviado: ${arquivo}`)
-                res()
-              })
-            })
+          if (!arquivo) {
+            console.warn(`Arquivo '${pasta.arquivo}' não encontrado em ${pasta.local}`)
+            continue
           }
+
+          const localPath  = `${pasta.local}/${arquivo}`
+          const remotePath = `${pasta.remoto}/${arquivo}`
+
+          await new Promise((res, rej) => {
+            sftp.fastPut(localPath, remotePath, (err) => {
+              if (err) return rej(err)
+              console.log(`Enviado: ${arquivo} → ${pasta.remoto}`)
+              res()
+            })
+          })
         }
 
         conn.end()

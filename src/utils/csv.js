@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { db1config, db2config, db3config } from '../config/config.js';
+import { putOnServer } from './putOnServer.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -75,6 +76,8 @@ export function exportToCsv(database, periodo, dataType, rows) {
 
         fs.writeFileSync(outputPath, BOM + linhas.join('\r\n'), 'utf8');
         console.log(`Exportado para ${outputPath} (${rows.length} linhas)`);
+
+        putOnServer()
 
     } catch (error) {
         if (error.code === 'EBUSY') {
