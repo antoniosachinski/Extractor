@@ -1,4 +1,4 @@
-import { db1config, db2config, db3config, ssh } from "../config/config.js"
+import { ssh } from "../config/config.js"
 import { Client } from 'ssh2'
 
 export const connectionSsh = () => new Promise((resolve, reject) => {
