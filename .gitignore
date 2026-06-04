@@ -139,4 +139,4 @@ dist
 src/output/
 
 # Ignorar alterações simples n main
-src/index.js
+src/main
