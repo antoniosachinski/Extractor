@@ -63,15 +63,5 @@ export async function connectionDatabase(database) {
     return connection;
 }
 
-export const connectionSsh = () => new Promise((resolve, reject) => {
-    const conn = new Client()
-    conn.on('ready', () => resolve(conn))
-    conn.on('error', reject)
-    conn.connect({
-        host: ssh.host,
-        port: ssh.port || 22,
-        username: ssh.user,
-        password: ssh.pass
-    })
-})
+
 
