@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise'
-import { db1config, db2config, db3config } from "../config/config.js"
+import { db1config, db2config, db3config, ssh } from "../config/config.js"
+import { Client } from 'ssh2'
 
 export async function findDatabase(database) {
     const configs = {
@@ -61,4 +62,16 @@ export async function connectionDatabase(database) {
 
     return connection;
 }
+
+export const connectionSsh = () => new Promise((resolve, reject) => {
+    const conn = new Client()
+    conn.on('ready', () => resolve(conn))
+    conn.on('error', reject)
+    conn.connect({
+        host: ssh.host,
+        port: ssh.port,
+        username: ssh.user,
+        privateKey: ssh.pass
+    })
+})
 

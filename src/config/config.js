@@ -29,3 +29,10 @@ export const db3config = {
 
 export const company = process.env.COMPANY_ID
 
+export const ssh = {
+    host: process.env.SSH_HOST,
+    port: process.env.SSH_PORT,
+    user: process.env.SSH_USER,
+    pass: process.env.SSH_KEY_PATH
+}
+
