@@ -5,7 +5,7 @@ import { company } from "../config/config.js";
 export async function metadados(database, data) {
     const conn = await connectionDatabase(database);
 
-    console.log('Select iniciado!')
+    console.log(`Select 'METADADOS' iniciado!`)
 
 
     try {

@@ -4,7 +4,7 @@ import { exportToCsv } from "../utils/csv.js";
 export async function dados(database, data) {
     const conn = await connectionDatabase(database);
 
-    console.log('Select iniciado!')
+    console.log(`Select 'DADOS' iniciado!`)
 
     try {
         const [rows] = await conn.query(`
