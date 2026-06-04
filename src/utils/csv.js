@@ -77,7 +77,6 @@ export function exportToCsv(database, periodo, dataType, rows) {
         fs.writeFileSync(outputPath, BOM + linhas.join('\r\n'), 'utf8');
         console.log(`Exportado para ${outputPath} (${rows.length} linhas)`);
 
-        putOnServer()
 
     } catch (error) {
         if (error.code === 'EBUSY') {
